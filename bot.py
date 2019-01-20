@@ -1,149 +1,55 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import logging
-from time import time
-import time
-import os
-from pprint import pprint
-import sys
-import yaml
-import telegram
+#Load bot token
+"bot_token": 599515395:AAHljj_v4JQt3Z66vr57VUb8FqK1z1Cz2hY
 
-#### Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - '
-                    '%(message)s',
-                    level=logging.INFO)
-logger = logging.getLogger(__name__)
+#Messages
+commands: >
+   My commands:
+   /resources - Golem Network resources
+   /videos - Golem Network related videos
+   /events - Upcoming events
+   /extras - Extra commands
 
-# Configure Logging
+extras: >
+   /releases - Github releases page
+   /adminlist - List the admins of @Golemproject
+   /rules - Golem Network | GNT telegram channel rules
 
-FORMAT = '%(asctime)s -- %(levelname)s -- %(module)s %(lineno)d -- %(message)s'
-logging.basicConfig(level=logging.INFO, format=FORMAT)
-logger = logging.getLogger('root')
-logger.info("Running "+sys.argv[0])
+start: >
+   Hi, start off with /commands
 
-##### Open config_file
-config = None
-if os.path.isfile("config.ymal"):
-    with open("config.ymal") as config_file:
-        config = yaml.load(config_file)
-else:
-    exit("No configuration file 'config.yaml' found")
-    sys.exit()
+resources: >
+   Golem Network resources:
+   [Website](https://golem.network/)
+   [Github](https://github.com/golemfactory)
+   [Documentation](https://explorer.golem.network/documentation/understanding-beta/)
+   [Blog](https://blog.golemproject.net/)
+   [Twitter](https://twitter.com/golemproject)
+   [Reddit](https://www.reddit.com/r/golemproject)
+   [Chat](https://chat.golem.network/)
+   [Download](https://explorer.golem.network/rendering/download/)
+   [Whitepaper](https://explorer.golem.network/crowdfunding/Golemwhitepaper.pdf)
+   [Trello Golem Comms Archive](https://trello.com/b/95eZBUfT/golem-comms-archive)
+   [Latest AMA](https://www.reddit.com/r/GolemProject/comments/aeidp7/golems_latest_ama_session_january_16th_2019_6pm/?st=JQV64VH2&sh=c965b1b9)
+   [Kenny's Golem Stats](https://kascheri12.github.io/dashboard/)
 
-##### load config
-bot_token = config['bot_token']
-bot = telegram.Bot(token=bot_token)
+events: >
+   Upcoming Events:
 
-def get_name(user):
-        try:
-            name = user.first_name
-        except (NameError, AttributeError):
-            try:
-                name = user.username
-            except (NameError, AttributeError):
-                logger.info("No username or first name")
-                return	""
-        return name
+videos: >
+   Golem Network videos/presentations:
+   [Golem Network Youtube Channel](https://www.youtube.com/channel/UCl3fxgrSML2sL3UYZrynbMg)
+   [Devcon4](https://youtu.be/w0bYO8DOT8A)
 
-################################ Commands ######################################
+rules: >
+   Golem Network | GNT telegram channel rules:
+   [Rule #1, don't feed the trolls](https://t.me/GolemProject/26111)
+   [Rule #1 of this group: NO MCAFFEE MENTIONS](https://t.me/GolemProject/25511)
+   [Rule #1 is no attacking the team.](https://t.me/GolemProject/25630)
 
-def start(bot, update):
-    pprint(update.message.chat.__dict__, indent=4)
-    message_id = update.message.message_id
-    chat_id = update.message.chat.id
-    if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
-        msg = config['pmme']
-        bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1)
-    else:
-        msg = config['start']
-        update.message.reply_text("Hey "+str(update.message.chat.first_name)+"! Get a list of my commands with /commands")
+adminlist: >
+   Golem Network | GNT Admin List:
+   Jasper - @jaspervv99
+   MP - @mariapaulafn
 
-def commands(bot, update):
-    pprint(update.message.chat.__dict__, indent=4)
-    chat_id = update.message.chat.id
-    msg = config['commands']
-    bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
-
-def extras(bot, update):
-    pprint(update.message.chat.__dict__, indent=4)
-    chat_id = update.message.chat.id
-    msg = config['extras']
-    bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
-
-def resources(bot, update):
-    pprint(update.message.chat.__dict__, indent=4)
-    chat_id = update.message.chat.id
-    msg = config['resources']
-    bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
-
-def events(bot, update):
-    pprint(update.message.chat.__dict__, indent=4)
-    chat_id = update.message.chat.id
-    msg = config['events']
-    bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
-
-def videos(bot, update):
-    pprint(update.message.chat.__dict__, indent=4)
-    chat_id = update.message.chat.id
-    msg = config['videos']
-    bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
-
-def rules(bot, update):
-    pprint(update.message.chat.__dict__, indent=4)
-    chat_id = update.message.chat.id
-    msg = config['rules']
-    bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
-
-def adminlist(bot, update):
-    pprint(update.message.chat.__dict__, indent=4)
-    chat_id = update.message.chat.id
-    msg = config['adminlist']
-    bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
-
-def releases(bot, update):
-    pprint(update.message.chat.__dict__, indent=4)
-    chat_id = update.message.chat.id
-    msg = config['releases']
-    bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
-
-def carlos(bot, update):
-    pprint(update.message.chat.__dict__, indent=4)
-    chat_id = update.message.chat.id
-	msg = bot.sendPhoto(chat_id=chat_id, photo=open("carlos.png",'rb'), caption="Bitconnect" )
-
-###############################################################################
-
-###### Error logging
-def error(bot, update, error):
-    logger.warning('Update "%s" caused error "%s"', update, error)
-
-###### Running the bot
-def main():
-    # Create the EventHandler and pass it your bot's token.
-    print("Bot started")
-    updater = Updater(bot_token)
-
-##### Get the dispatcher to register handlers
-    dp = updater.dispatcher
-
-##### CommandHandlers
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("commands", commands))
-    dp.add_handler(CommandHandler("extras", extras))
-    dp.add_handler(CommandHandler("resources", resources))
-    dp.add_handler(CommandHandler("events", events))
-    dp.add_handler(CommandHandler("videos", videos))
-    dp.add_handler(CommandHandler("rules", rules))
-    dp.add_handler(CommandHandler("adminlist", adminlist))
-    dp.add_handler(CommandHandler("releases", releases))
-    dp.add_handler(CommandHandler("carlos", carlos))
-
-##### Log all errors
-    dp.add_error_handler(error)
-
-# Start the Bot
-    updater.start_polling()
-    updater.idle()
-
-if __name__ == '__main__':
-    main()
+releases: >
+   [Golem Network Releases List](https://github.com/golemfactory/golem/releases)
