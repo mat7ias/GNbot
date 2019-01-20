@@ -1,5 +1,5 @@
 #Load bot token
-"bot_token": YOU_BOT_TOKEN
+"bot_token": YOUR_BOT_TOKEN
 
 #Messages
 commands: >
@@ -50,7 +50,6 @@ adminlist: >
    Golem Network | GNT Admin List:
    Jasper - @jaspervv99
    MP - @mariapaulafn
-   redsn0w - @redsn0w
 
 releases: >
    [Golem Network Releases List](https://github.com/golemfactory/golem/releases)
