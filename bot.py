@@ -76,12 +76,6 @@ def resources(bot, update):
     msg = config['resources']
     bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
 
-def events(bot, update):
-    pprint(update.message.chat.__dict__, indent=4)
-    chat_id = update.message.chat.id
-    msg = config['events']
-    bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
-
 def videos(bot, update):
     pprint(update.message.chat.__dict__, indent=4)
     chat_id = update.message.chat.id
@@ -110,7 +104,7 @@ def carlos(bot, update):
     pprint(update.message.chat.__dict__, indent=4)
     chat_id = update.message.chat.id
     user_id = update.message.from_user.id
-    if user_id == 440263207:
+    if user_id == :
     	msg = bot.sendPhoto(chat_id=chat_id, photo=open("carlos.png",'rb'), caption="WHADAMAGANADO")
 
 ###############################################################################
@@ -133,7 +127,6 @@ def main():
     dp.add_handler(CommandHandler("commands", commands))
     dp.add_handler(CommandHandler("extras", extras))
     dp.add_handler(CommandHandler("resources", resources))
-    dp.add_handler(CommandHandler("events", events))
     dp.add_handler(CommandHandler("videos", videos))
     dp.add_handler(CommandHandler("rules", rules))
     dp.add_handler(CommandHandler("adminlist", adminlist))
