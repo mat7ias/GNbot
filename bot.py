@@ -7,6 +7,7 @@ from pprint import pprint
 import sys
 import yaml
 import telegram
+import random
 
 #### Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - '
@@ -23,8 +24,8 @@ logger.info("Running "+sys.argv[0])
 
 ##### Open config_file
 config = None
-if os.path.isfile("config.yaml"):
-    with open("config.yaml") as config_file:
+if os.path.isfile("bot/GolemBot/config.yaml"):
+    with open("bot/GolemBot/config.yaml") as config_file:
         config = yaml.load(config_file)
 else:
     exit("No configuration file 'config.yaml' found")
@@ -33,6 +34,8 @@ else:
 ##### load config
 bot_token = config['bot_token']
 bot = telegram.Bot(token=bot_token)
+
+TEAM = config['TEAM']
 
 def get_name(user):
         try:
@@ -104,8 +107,16 @@ def carlos(bot, update):
     pprint(update.message.chat.__dict__, indent=4)
     chat_id = update.message.chat.id
     user_id = update.message.from_user.id
-    if user_id == :
+    if user_id == 440263207:
     	msg = bot.sendPhoto(chat_id=chat_id, photo=open("carlos.png",'rb'), caption="WHADAMAGANADO")
+
+def rabbit(bot, update):
+    pprint(update.message.chat.__dict__, indent=4)
+    chat_id = update.message.chat.id
+    user_id = update.message.from_user.id
+    if user_id in TEAM:
+        bunnylist=["/home/ubuntu/rabbitpic.jpg", "/home/ubuntu/rabbit1.jpg", "/home/ubuntu/rabbit2.jpg", "/home/ubuntu/rabbit3.jpg"]
+        msg = bot.sendPhoto(chat_id=chat_id, photo=open(random.choice(bunnylist), "rb"))
 
 ###############################################################################
 
@@ -132,6 +143,7 @@ def main():
     dp.add_handler(CommandHandler("adminlist", adminlist))
     dp.add_handler(CommandHandler("releases", releases))
     dp.add_handler(CommandHandler("carlos", carlos))
+    dp.add_handler(CommandHandler("rabbit", rabbit))
 
 ##### Log all errors
     dp.add_error_handler(error)
