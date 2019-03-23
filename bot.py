@@ -48,6 +48,16 @@ def get_name(user):
                 return	""
         return name
 
+################################ Anti-spam #####################################
+
+def spamfilter(bot, update):
+    user_id = update.message.from_user.id
+    count = config['previouscommand_count']
+    chat_id = update.message.chat.id
+    pprint(update.message.chat.type)
+    if (chat_id == -1001097743663):
+        config['previouscommand_count'] = count + 1
+
 ################################ Commands ######################################
 
 def start(bot, update):
@@ -77,7 +87,15 @@ def resources(bot, update):
     pprint(update.message.chat.__dict__, indent=4)
     chat_id = update.message.chat.id
     msg = config['resources']
-    bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
+    count = config['previouscommand_count']
+    message_id = update.message.message_id
+    if (count >= 6) and (chat_id == -1001097743663):
+        bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
+        config['previouscommand_count'] = 0
+    if (count < 6) and (chat_id == -1001097743663):
+        bot.delete_message(chat_id=chat_id,message_id=message_id)
+    elif (chat_id != -1001097743663):
+        bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
 
 def videos(bot, update):
     pprint(update.message.chat.__dict__, indent=4)
@@ -109,14 +127,15 @@ def carlos(bot, update):
     user_id = update.message.from_user.id
     if user_id == 440263207:
     	msg = bot.sendPhoto(chat_id=chat_id, photo=open("carlos.png",'rb'), caption="WHADAMAGANADO")
+    if user_id == 474621061:
+        msg = bot.sendPhoto(chat_id=chat_id, photo=open("carlos.png",'rb'), caption="THAT'S A SCAM")
 
 def rabbit(bot, update):
     pprint(update.message.chat.__dict__, indent=4)
     chat_id = update.message.chat.id
     user_id = update.message.from_user.id
-    if user_id in TEAM:
-        bunnylist=["/home/ubuntu/rabbitpic.jpg", "/home/ubuntu/rabbit1.jpg", "/home/ubuntu/rabbit2.jpg", "/home/ubuntu/rabbit3.jpg"]
-        msg = bot.sendPhoto(chat_id=chat_id, photo=open(random.choice(bunnylist), "rb"))
+    bunnylist=["/home/ubuntu/rabbitpic.jpg", "/home/ubuntu/rabbit1.jpg", "/home/ubuntu/rabbit2.jpg", "/home/ubuntu/rabbit3.jpg", "/home/ubuntu/rabbit4.jpg", "/home/ubuntu/rabbit5.jpg", "/home/ubuntu/rabbit6.jpg", "/home/ubuntu/rabbit7.jpg", "/home/ubuntu/rabbit8.jpg", "/home/ubuntu/rabbit9.jpg", "/home/ubuntu/rabbit10.jpg", "/home/ubuntu/rabbit11.jpg", "/home/ubuntu/rabbit12.jpg", "/home/ubuntu/rabbit13.jpg", "/home/ubuntu/rabbit14.jpg", "/home/ubuntu/rabbit15.jpg"]
+    msg = bot.sendPhoto(chat_id=chat_id, photo=open(random.choice(bunnylist), "rb"))
 
 ###############################################################################
 
@@ -144,6 +163,9 @@ def main():
     dp.add_handler(CommandHandler("releases", releases))
     dp.add_handler(CommandHandler("carlos", carlos))
     dp.add_handler(CommandHandler("rabbit", rabbit))
+
+##### MessageHandlers
+    dp.add_handler(MessageHandler(Filters.all, spamfilter))
 
 ##### Log all errors
     dp.add_error_handler(error)
