@@ -2,6 +2,10 @@
 "bot_token": YOUR_BOT_TOKEN
 #Load bot token
 
+GNT_ID: 
+GNT_PLAYGROUND_ID: 
+
+
 TEAM:
 
   -
