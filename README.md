@@ -21,3 +21,5 @@ extras: >
    /adminlist - List the admins of @Golemproject
 
    /rules - Golem Network | GNT telegram channel rules
+
+Keep in mind that if you run this bot yourself you'll need to fix the paths of the fortunes and config file. I also haven't included any of the picture files.
