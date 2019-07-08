@@ -8,6 +8,7 @@ import sys
 import yaml
 import telegram
 import random
+import json
 
 #### Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - '
@@ -30,6 +31,12 @@ if os.path.isfile("bot/GolemBot/config.yaml"):
 else:
     exit("No configuration file 'config.yaml' found")
     sys.exit()
+##### Open fortune cookies
+if os.path.isfile("bot/GolemBot/fortunes.json"):
+    with open("bot/GolemBot/fortunes.json") as fortunes_file:
+        fortunes = json.load(fortunes_file)
+else:
+    print("No fortune cookies file 'fortunes.json' found")
 
 ##### load config
 bot_token = config['bot_token']
@@ -61,6 +68,16 @@ def get_name(user):
                 return	""
         return name
 
+def delete(chat_id):
+    try:
+        bot.delete_message(chat_id=chat_id,message_id=PRIOR_CMD_ID[chat_id])
+    except:
+        pass
+    try:
+        bot.delete_message(chat_id=chat_id, message_id=PRIOR_CMD_MSG_ID[chat_id])
+    except:
+        pass
+
 
 ################################ Commands ######################################
 
@@ -82,8 +99,7 @@ def commands(bot, update):
     msg = config['commands']
     if (chat_id == GNT or chat_id == GNT_PLAYGROUND):
         if PRIOR_CMD_MSG_ID[chat_id] > 0:
-            bot.delete_message(chat_id=chat_id, message_id=PRIOR_CMD_MSG_ID[chat_id])
-            bot.delete_message(chat_id=chat_id,message_id=PRIOR_CMD_ID[chat_id])
+            delete(chat_id)
         message = bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
         PRIOR_CMD_MSG_ID[chat_id] = int(message.message_id)
         PRIOR_CMD_ID[chat_id] = int(message_id)
@@ -97,8 +113,7 @@ def extras(bot, update):
     msg = config['extras']
     if (chat_id == GNT or chat_id == GNT_PLAYGROUND):
         if PRIOR_CMD_MSG_ID[chat_id] > 0:
-            bot.delete_message(chat_id=chat_id, message_id=PRIOR_CMD_MSG_ID[chat_id])
-            bot.delete_message(chat_id=chat_id,message_id=PRIOR_CMD_ID[chat_id])
+            delete(chat_id)
         message = bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
         PRIOR_CMD_MSG_ID[chat_id] = int(message.message_id)
         PRIOR_CMD_ID[chat_id] = int(message_id)
@@ -112,8 +127,7 @@ def resources(bot, update):
     message_id = update.message.message_id
     if (chat_id == GNT or chat_id == GNT_PLAYGROUND):
         if PRIOR_CMD_MSG_ID[chat_id] > 0:
-            bot.delete_message(chat_id=chat_id, message_id=PRIOR_CMD_MSG_ID[chat_id])
-            bot.delete_message(chat_id=chat_id,message_id=PRIOR_CMD_ID[chat_id])
+            delete(chat_id)
         message = bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
         PRIOR_CMD_MSG_ID[chat_id] = int(message.message_id)
         PRIOR_CMD_ID[chat_id] = int(message_id)
@@ -127,8 +141,7 @@ def videos(bot, update):
     msg = config['videos']
     if (chat_id == GNT or chat_id == GNT_PLAYGROUND):
         if PRIOR_CMD_MSG_ID[chat_id] > 0:
-            bot.delete_message(chat_id=chat_id, message_id=PRIOR_CMD_MSG_ID[chat_id])
-            bot.delete_message(chat_id=chat_id,message_id=PRIOR_CMD_ID[chat_id])
+            delete(chat_id)
         message = bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
         PRIOR_CMD_MSG_ID[chat_id] = int(message.message_id)
         PRIOR_CMD_ID[chat_id] = int(message_id)
@@ -142,8 +155,7 @@ def rules(bot, update):
     msg = config['rules']
     if (chat_id == GNT or chat_id == GNT_PLAYGROUND):
         if PRIOR_CMD_MSG_ID[chat_id] > 0:
-            bot.delete_message(chat_id=chat_id, message_id=PRIOR_CMD_MSG_ID[chat_id])
-            bot.delete_message(chat_id=chat_id,message_id=PRIOR_CMD_ID[chat_id])
+            delete(chat_id)
         message = bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
         PRIOR_CMD_MSG_ID[chat_id] = int(message.message_id)
         PRIOR_CMD_ID[chat_id] = int(message_id)
@@ -157,8 +169,7 @@ def adminlist(bot, update):
     msg = config['adminlist']
     if (chat_id == GNT or chat_id == GNT_PLAYGROUND):
         if PRIOR_CMD_MSG_ID[chat_id] > 0:
-            bot.delete_message(chat_id=chat_id, message_id=PRIOR_CMD_MSG_ID[chat_id])
-            bot.delete_message(chat_id=chat_id,message_id=PRIOR_CMD_ID[chat_id])
+            delete(chat_id)
         message = bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
         PRIOR_CMD_MSG_ID[chat_id] = int(message.message_id)
         PRIOR_CMD_ID[chat_id] = int(message_id)
@@ -172,8 +183,7 @@ def releases(bot, update):
     msg = config['releases']
     if (chat_id == GNT or chat_id == GNT_PLAYGROUND):
         if PRIOR_CMD_MSG_ID[chat_id] > 0:
-            bot.delete_message(chat_id=chat_id, message_id=PRIOR_CMD_MSG_ID[chat_id])
-            bot.delete_message(chat_id=chat_id,message_id=PRIOR_CMD_ID[chat_id])
+            delete(chat_id)
         message = bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
         PRIOR_CMD_MSG_ID[chat_id] = int(message.message_id)
         PRIOR_CMD_ID[chat_id] = int(message_id)
@@ -187,8 +197,7 @@ def carlos(bot, update):
     message_id = update.message.message_id
     if (chat_id == GNT or chat_id == GNT_PLAYGROUND):
         if PRIOR_CMD_MSG_ID[chat_id] > 0:
-            bot.delete_message(chat_id=chat_id, message_id=PRIOR_CMD_MSG_ID[chat_id])
-            bot.delete_message(chat_id=chat_id,message_id=PRIOR_CMD_ID[chat_id])
+            delete(chat_id)
         message = bot.sendPhoto(chat_id=chat_id, photo=open("carlos.png",'rb'), caption="WHADAMAGANADO")
         PRIOR_CMD_MSG_ID[chat_id] = int(message.message_id)
         PRIOR_CMD_ID[chat_id] = int(message_id)
@@ -203,13 +212,34 @@ def rabbit(bot, update):
     bunnylist=["/home/ubuntu/rabbitpic.jpg", "/home/ubuntu/rabbit1.jpg", "/home/ubuntu/rabbit2.jpg", "/home/ubuntu/rabbit3.jpg", "/home/ubuntu/rabbit4.jpg", "/home/ubuntu/rabbit5.jpg", "/home/ubuntu/rabbit6.jpg", "/home/ubuntu/rabbit7.jpg", "/home/ubuntu/rabbit8.jpg", "/home/ubuntu/rabbit9.jpg", "/home/ubuntu/rabbit10.jpg", "/home/ubuntu/rabbit11.jpg", "/home/ubuntu/rabbit12.jpg", "/home/ubuntu/rabbit13.jpg", "/home/ubuntu/rabbit14.jpg", "/home/ubuntu/rabbit15.jpg", "/home/ubuntu/rabbit16.jpg", "/home/ubuntu/rabbit17.jpg", "/home/ubuntu/rabbit18.jpg", "/home/ubuntu/rabbit19.jpg"]
     if (chat_id == GNT or chat_id == GNT_PLAYGROUND):
         if PRIOR_CMD_MSG_ID[chat_id] > 0:
-            bot.delete_message(chat_id=chat_id, message_id=PRIOR_CMD_MSG_ID[chat_id])
-            bot.delete_message(chat_id=chat_id,message_id=PRIOR_CMD_ID[chat_id])
+            delete(chat_id)
         message = bot.sendPhoto(chat_id=chat_id, photo=open(random.choice(bunnylist), "rb"))
         PRIOR_CMD_MSG_ID[chat_id] = int(message.message_id)
         PRIOR_CMD_ID[chat_id] = int(message_id)
     else:
         bot.sendPhoto(chat_id=chat_id, photo=open(random.choice(bunnylist), "rb"))
+
+
+def fortune(bot, update):
+    pprint(update.message.chat.__dict__, indent=4)
+    chat_id = update.message.chat.id
+    user_id = update.message.from_user.id
+    previous_fortune_id = config['previous']['fortune']
+    if (previous_fortune_id == user_id + 1) and (chat_id == GNT or chat_id == GNT_PLAYGROUND):
+        message_id = update.message.message_id
+        bot.delete_message(chat_id=chat_id, message_id=message_id)
+    elif (user_id == previous_fortune_id) and (chat_id == GNT or chat_id == GNT_PLAYGROUND):
+        msg = ("One who asks for many fortunes in a row, is one who should rethink their life.")
+        bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
+        config['previous']['fortune'] = user_id + 1
+    elif (user_id != previous_fortune_id) and (chat_id == GNT or chat_id == GNT_PLAYGROUND):
+        msg = random.choice(fortunes)
+        bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
+        config['previous']['fortune'] = user_id
+    else:
+        msg = random.choice(fortunes)
+        bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
+
 
 ###############################################################################
 
@@ -237,6 +267,7 @@ def main():
     dp.add_handler(CommandHandler("releases", releases))
     dp.add_handler(CommandHandler("carlos", carlos))
     dp.add_handler(CommandHandler("rabbit", rabbit))
+    dp.add_handler(CommandHandler("fortune", fortune))
 
 ##### MessageHandlers
 
