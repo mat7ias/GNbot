@@ -25,15 +25,15 @@ logger.info("Running "+sys.argv[0])
 
 ##### Open config_file
 config = None
-if os.path.isfile("bot/GolemBot/config.yaml"):
-    with open("bot/GolemBot/config.yaml") as config_file:
+if os.path.isfile("./config.yaml"):
+    with open("./config.yaml") as config_file:
         config = yaml.load(config_file)
 else:
     exit("No configuration file 'config.yaml' found")
     sys.exit()
 ##### Open fortune cookies
-if os.path.isfile("bot/GolemBot/fortunes.json"):
-    with open("bot/GolemBot/fortunes.json") as fortunes_file:
+if os.path.isfile("./fortunes.json"):
+    with open("./fortunes.json") as fortunes_file:
         fortunes = json.load(fortunes_file)
 else:
     print("No fortune cookies file 'fortunes.json' found")
